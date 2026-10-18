@@ -34,9 +34,12 @@ jobs:
         echo "=== Előtelepített eszközök ==="
         sudo du -xhd1 /usr/local /usr/share /opt 2>/dev/null | sort -h
 
+        echo "=== usr/local/lib fájlok ==="
+        sudo du -xhd1 /usr/local/lib /usr/local/share 2>/dev/null | sort -h
+
         echo "=== Runner és ideiglenes fájlok ==="
         sudo du -xhd1 /home/runner /tmp /mnt 2>/dev/null | sort -h
-
+        
         echo "=== Docker tárhelyhasználat ==="
         docker system df -v
 
