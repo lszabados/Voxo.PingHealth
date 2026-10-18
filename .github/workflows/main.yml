@@ -1,0 +1,42 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      
+    defaults:
+      run:
+        working-directory: ./
+        
+    env:
+      Solution_Name: Voxo.ERP                         # Replace with your solution name, i.e. MyWpfApp.sln.
+      
+    steps:
+    - name: Analyze disk usage
+      shell: bash
+      run: |
+        echo "=== Lemezek szabad helye ==="
+        df -h
+
+        echo "=== Fő könyvtárak mérete ==="
+        sudo du -xhd1 / 2>/dev/null | sort -h
+
+        echo "=== Előtelepített eszközök ==="
+        sudo du -xhd1 /usr/local /usr/share /opt 2>/dev/null | sort -h
+
+        echo "=== Runner és ideiglenes fájlok ==="
+        sudo du -xhd1 /home/runner /tmp /mnt 2>/dev/null | sort -h
+
+        echo "=== Docker tárhelyhasználat ==="
+        docker system df -v
+
